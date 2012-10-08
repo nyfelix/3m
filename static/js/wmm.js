@@ -52,7 +52,6 @@
  *   children: []
  * }
  */
-
 YUI({
     modules: {
         'jit': {
@@ -60,78 +59,72 @@ YUI({
         },
         'wmm-mindmap': {
             fullpath: '/js/mindmap.js',
-            requires: [ 'base-build', 'widget', 'jit']
+            requires: ['base-build', 'widget', 'jit']
         },
-        'wmm-parser-mediawiki' : {
+        'wmm-parser-mediawiki': {
             fullpath: '/js/parser/mediawiki.js',
-            requires: [ 'base-build']
+            requires: ['base-build']
         }
     }
-// TODO: Add Controller module for HTML5 same page history navigation
-// TODO: Add Autocomplete module for the term box
-}).use('base', 'node', 'json', 'jsonp', 'substitute', 'wmm-mindmap', 'wmm-parser-mediawiki', function(Y, result) {
-     var main = function() {
-        Y.one('.yui3-js-enabled').removeClass('yui3-js-enabled');
-        // Create our namespace
-        Y.namespace('wmm');
-
-        // Define the Datasources and Transformint methods from Source to Mindmapnodes
-        var mySources = {
-            'links' : {
-                'nodename' : 'Links',
-                'api' : 'http://{wiki}/w/api.php?action=query&titles={term}&format=json&prop=links&callback={callback}',
-                'mapping' :  function(data, parent) {
-                    var pnode = parent;
-                    var pages = data.query.pages;
-                    for(var page in pages){
-                        for(var link in pages[page].links){
+    // TODO: Add Controller module for HTML5 same page history navigation
+    // TODO: Add Autocomplete module for the term box
+}).use('base', 'node', 'event', 'json', 'jsonp', 'substitute', 'wmm-mindmap', 'wmm-parser-mediawiki', function(Y, result) {
+    var doLayout = function(e) {
+            var h = Y.one('body').get('winHeight') - 88;
+            Y.one('#wmm-mindmap').setStyle('height', h + 'px');
+        };
+        
+    var main = function() {
+            Y.one('.yui3-js-enabled').removeClass('yui3-js-enabled');
+            // Create our namespace
+            Y.namespace('wmm');
+            Y.wmm.mediaWikiParser = new Y.wmm.MediaWikiParser();
+            // Define the Datasources and Transformint methods from Source to Mindmapnodes
+            var mySources = {
+                'links': {
+                    'nodename': '',
+                    //'api': 'http://{wiki}/w/api.php?action=query&prop=revisions&rvprop=content&titles={term}&format=json&callback={callback}', 
+                    'api': 'http://{wiki}/w/api.php?action=query&title={term}&format=json&callback={callback}', 
+                    'mapping': function(data, parent) {                        
+                        //var result = Y.wmm.mediaWikiParser.parse('A very simple example of [[link]] and ==chapter== a [[linkinchap]] within a chapter and a ===subchapter===');  
+                        var result;
+                        for(var page in data.query.pages) {
+                            result = Y.wmm.mediaWikiParser.parse(data.query.pages[page].revisions[0]["*"]);
+                        }
+                        parent.children = result.children;
+                    }
+                }
+                /*'extlinks': {
+                    'nodename': 'Backlinks',
+                    'api': 'http://{wiki}/w/api.php?action=query&list=backlinks&bltitle={term}&format=json&callback={callback}',
+                    'mapping': function(data, parent) {
+                        var pnode = parent;
+                        var backlinks = data.query.backlinks;
+                        for (var link in backlinks) {
+                            var title = backlinks[link].title;
                             pnode.children[link] = {
-                                id : link,
-                                name : pages[page].links[link].title,
-                                children: [{id:link+'A', name:'Some other link A', children:[]},{id:link+'B', name:'Some other link B', children:[]}]
+                                id: 'bl' + link,
+                                name: title,
+                                children: []
                             };
                         }
                     }
-                    return pnode;
-                }
-            },
-            'extlinks' : {
-                'nodename' : 'Backlinks',
-                'api' : 'http://{wiki}/w/api.php?action=query&list=backlinks&bltitle={term}&format=json&callback={callback}',
-                'mapping' :  function(data, parent) {
-                    var pnode = parent;
-                    var backlinks = data.query.backlinks;
-                    for(var link in backlinks){
-                        var title = backlinks[link].title;
-                        pnode.children[link] = {
-                            id : 'bl'+link,
-                            name : title,
-                            children: []
-                        };
-                    }
-                    return pnode;
-                }
-            }
+                }*/
+            };
+           
+            doLayout();
+            // Create the mindmap object
+            var myMindmap = new Y.wmm.Mindmap({
+                title: "Some Text",
+                sources: mySources
+            }).render("#wmm-mindmap");
+            Y.one("#search").on('click', function() {
+                myMindmap.load();
+            });
+            Y.on('windowresize', doLayout);
         };
-
-        var myParser = new Y.wmm.MediaWikiParser();
-        myParser.parse();
-        
-        // Create the mindmap object
-        var myMindmap = new Y.wmm.Mindmap({
-            title: "Some Text",
-            sources: mySources
-        }).render("#wmm-mindmap");
-    
-        Y.one("#search").on('click', function() {
-            myMindmap.load();
-        });
-    };
     Y.on("domready", main);
 });
- 
-
-
 /************************************************************************************
  *
  * TODO's

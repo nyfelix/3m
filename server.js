@@ -24,5 +24,5 @@ app.get('/css/*', function(req, res){
     res.sendfile('static/css/'+req.params[0]);
 });
 
-app.listen(process.env.C9_PORT);
-console.log('Express server started on port %s', process.env.C9_PORT);
+app.listen(process.env.PORT);
+console.log('Express server started on port %s', process.env.PORT);

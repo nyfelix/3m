@@ -138,7 +138,10 @@ h1 {
 }
 
 footer {
-    margin: 10px 0 10px 0;
+    background-color: #eeeeee;
+    border-top: 1px solid #cccccc;
+    padding: 5px;
+    color: #888888;
     font-size: 8pt;
 }
 
@@ -146,19 +149,37 @@ footer {
     width: inherit;
 }
 
-button, select {
+.inputbox {
     font-size:10pt;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     padding: 0 .5em;
-    height: 25px;
     border: 1px solid #CCC;
-    color: black;
+    height: 20px;
+    color: #000000;
     background: #F6F6F6;
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
     overflow: visible;
+    margin-left: 10px;
+}
+
+#term {
+    border-right: 1px solid #CCC;
+}
+
+.left {
+    float:left;
+}
+
+
+.clean {
+    border: 0 none;
+    float: left; 
+    outline: medium none;
+    height: 20px;
 }
 
 #search {

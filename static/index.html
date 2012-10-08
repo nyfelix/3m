@@ -26,14 +26,16 @@
            <header>
                 <div class="dialog">
                     <div class="search">
-                        Get a mindmap for
-                        <input id="term" type="search" value="Rabbit">
-                        <select id="wiki">
-                            <option selected="true">en.wikipedia.org</option>
-                            <option>de.wikipedia.org</option>
-                            <option>fr.wikipedia.org</option>
-                        </select>
-                        <button id="search" type="button">Search</button>
+                        <span id="lable" class="left">Draw a mindmap for</span>
+                        <div id="inputbox" class="inputbox left">
+                            <input id="term" type="search" value="Rabbit" class="clean">
+                            <select id="wiki" class="clean">
+                                <option selected="true">en.wikipedia.org</option>
+                                <option>de.wikipedia.org</option>
+                                <option>fr.wikipedia.org</option>
+                            </select>
+                            <button id="search" type="button" class="clean">Search</button>
+                        </div>
                     </div>
                     <div class="title">
                         <h1>The New <span class="orange">Wiki</span>mindmap</h1>
@@ -43,21 +45,21 @@
 
 
                 <div id="wmm-mindmap">
-
-                </div>
                 <div id="mindmap">
 
                 </div>
+                </div>
+                
             </div>
             <footer>
-                Thanks to: Paul Irish, the YUI team, Nicolas Garcia Belmonte and all the good advice from Marco Egli
+                Thanks to: The YUI team, Nicolas Garcia Belmonte, Paul Irish, and all the good advice from Marco Egli
             </footer>
         </div>
         <div id="results">
             <!--JSON output will be written to the DOM here-->
         </div>   
         
-        <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+        <script src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
          <script src="/js/wmm.js"></script>              
         
         <link rel="stylesheet" type="text/css" href="//yui.yahooapis.com/combo?3.4.1/build/cssfonts/fonts-min.css&3.4.1/build/cssreset/reset-min.css&3.4.1/build/cssgrids/grids-min.css&3.4.1/build/cssbase/base-min.css">
