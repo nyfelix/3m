@@ -55,7 +55,7 @@
 YUI({
     modules: {
         'jit': {
-            fullpath: '/js/libs/jit/2.0.0/jit.js'
+            fullpath: '/js/libs/jit/2.0.1/jit.js'
         },
         'wmm-mindmap': {
             fullpath: '/js/mindmap.js',
@@ -84,12 +84,12 @@ YUI({
                 'links': {
                     'nodename': '',
                     //'api': 'http://{wiki}/w/api.php?action=query&prop=revisions&rvprop=content&titles={term}&format=json&callback={callback}', 
-                    'api': 'http://{wiki}/w/api.php?action=query&title={term}&format=json&callback={callback}', 
+                    'api': 'http://{wiki}/w/api.php?action=query&titles={term}&format=json&export&callback={callback}', 
                     'mapping': function(data, parent) {                        
                         //var result = Y.wmm.mediaWikiParser.parse('A very simple example of [[link]] and ==chapter== a [[linkinchap]] within a chapter and a ===subchapter===');  
                         var result;
                         for(var page in data.query.pages) {
-                            result = Y.wmm.mediaWikiParser.parse(data.query.pages[page].revisions[0]["*"]);
+                            result = Y.wmm.mediaWikiParser.parse(data.query.export['*']);
                         }
                         parent.children = result.children;
                     }
@@ -119,7 +119,7 @@ YUI({
                 sources: mySources
             }).render("#wmm-mindmap");
             Y.one("#search").on('click', function() {
-                myMindmap.load();
+                myMindmap.set('term', Y.one('#term').get('value'));
             });
             Y.on('windowresize', doLayout);
         };

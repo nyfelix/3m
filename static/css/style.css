@@ -94,9 +94,6 @@ body {
     float:right;
 }
 
-.search {
-    float:left;
-}
 
 h1 {
     font-size: 20pt;
@@ -122,20 +119,18 @@ h1 {
     font-size:12pt;
     color:#ffffff;
     font-weight:bold;
-    
+    z-index: 100;
 }
 
 .node {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px 5px 5px 5px;
-    padding: 5px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  z-index: 0;
 }
 
-.node:hover {
+/*.node:hover {
     z-index: 100;
     background: none repeat scroll 0 0 #EEEEEE;
-}
+}*/
 
 footer {
     background-color: #eeeeee;
@@ -147,23 +142,11 @@ footer {
 
 .search {
     width: inherit;
+    float:left;
 }
 
-.inputbox {
-    font-size:10pt;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    padding: 0 .5em;
-    border: 1px solid #CCC;
-    height: 20px;
-    color: #000000;
-    background: #F6F6F6;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    overflow: visible;
-    margin-left: 10px;
+.search label {
+  font-size: 16pt;
 }
 
 #term {
@@ -174,13 +157,10 @@ footer {
     float:left;
 }
 
-
 .clean {
-    border: 0 none;
-    float: left; 
-    outline: medium none;
-    height: 20px;
-}
+    margin-left : 0.5em;
+
+ }
 
 #search {
     /*border-left: 0;
